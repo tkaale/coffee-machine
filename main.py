@@ -3,6 +3,7 @@ MENU = {
         "ingredients": {
             "water": 50,
             "coffee": 18,
+            "milk": 0,
         },
         "cost": 1.5,
     },
@@ -43,11 +44,20 @@ def print_report(water, milk, coffee, money):
 
 
 def check_resources(drink, water, milk, coffee):
-    pass
+    drink_needs = (MENU[drink]['ingredients'])
+    if water < drink_needs['water']:
+        print("Sorry there is not enough water.")
+    elif milk < drink_needs['milk']:
+        print("Sorry there is not enough milk.")
+    elif coffee < drink_needs['coffee']:
+        print("Sorry there is not enough coffee.")
+    else:
+        return True
 
 
+def process_coins(drink):
 
-print(check_resources('latte', 300, 200, 100))
+
 
 def main():
     water = 300
@@ -69,4 +79,5 @@ def main():
 
 
 if __name__ == "__main__":
+    pass
     # main()
