@@ -48,12 +48,15 @@ def check_resources(drink, water, milk, coffee):
     drink_needs = (MENU[drink]['ingredients'])
     if water < drink_needs['water']:
         print("Sorry there is not enough water.")
+        return False
     elif milk < drink_needs['milk']:
         print("Sorry there is not enough milk.")
+        return False
     elif coffee < drink_needs['coffee']:
         print("Sorry there is not enough coffee.")
+        return False
     else:
-        return True
+        return [drink_needs['water'], drink_needs['milk'], drink_needs['coffee']]
 
 
 def ask_for_coins(coin, multiplier):
@@ -97,8 +100,17 @@ def main():
     while True:
         user_input = ask_user()
         if user_input == 'espresso' or user_input == 'latte' or user_input == 'cappuccino':
-            added_coins = process_coins()
-            check_user_coins(user_input, added_coins)
+            drink_ingredients = check_resources(user_input, water, milk, coffee)
+            if drink_ingredients is False:
+                continue
+            else:
+                added_coins = process_coins()
+                if check_user_coins(user_input, added_coins) is True:
+                    water -= drink_ingredients[0]
+                    milk -= drink_ingredients[1]
+                    coffee -= drink_ingredients[2]
+                    money += MENU[user_input]['cost']
+                    print(f"Here is your {user_input} ☕ Enjoy!")
 
         elif user_input == 'off':
             break
