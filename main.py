@@ -1,4 +1,3 @@
-import decimal
 
 MENU = {
     "espresso": {
@@ -67,17 +66,27 @@ def ask_for_coins(coin, multiplier):
             continue
 
 
-def process_coins(drink):
-    drink_price = MENU[drink]['cost']
+def process_coins():
     print('Please insert the coins.')
     quarters = ask_for_coins('quarters', 0.25)
     dimes = ask_for_coins('dimes', 0.10)
     nickles = ask_for_coins('nickles', 0.05)
     pennies = ask_for_coins('pennies', 0.01)
-    print(round((quarters + dimes + nickles + pennies), 2))
+    return round((quarters + dimes + nickles + pennies), 2)
 
 
-process_coins('latte')
+def check_user_coins(drink, added_coins):
+    drink_price = MENU[drink]['cost']
+    if added_coins >= drink_price:
+        change = added_coins - drink_price
+        if change == 0:
+            return True
+        else:
+            print(f"Here is ${change} in change.")
+            return True
+    else:
+        print("Sorry, that's not enough money. Money refunded.")
+        return False
 
 
 def main():
@@ -88,7 +97,9 @@ def main():
     while True:
         user_input = ask_user()
         if user_input == 'espresso' or user_input == 'latte' or user_input == 'cappuccino':
-            pass
+            added_coins = process_coins()
+            check_user_coins(user_input, added_coins)
+
         elif user_input == 'off':
             break
         elif user_input == 'report':
@@ -96,5 +107,4 @@ def main():
 
 
 if __name__ == "__main__":
-    pass
-    # main()
+    main()
