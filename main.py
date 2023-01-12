@@ -1,3 +1,5 @@
+import decimal
+
 MENU = {
     "espresso": {
         "ingredients": {
@@ -55,8 +57,27 @@ def check_resources(drink, water, milk, coffee):
         return True
 
 
-def process_coins(drink):
+def ask_for_coins(coin, multiplier):
+    while True:
+        coin_quantity = input(f'How many {coin}?: ')
+        if coin_quantity.isnumeric():
+            return int(coin_quantity) * multiplier
+        else:
+            print("Incorrect number. Try again")
+            continue
 
+
+def process_coins(drink):
+    drink_price = MENU[drink]['cost']
+    print('Please insert the coins.')
+    quarters = ask_for_coins('quarters', 0.25)
+    dimes = ask_for_coins('dimes', 0.10)
+    nickles = ask_for_coins('nickles', 0.05)
+    pennies = ask_for_coins('pennies', 0.01)
+    print(round((quarters + dimes + nickles + pennies), 2))
+
+
+process_coins('latte')
 
 
 def main():
@@ -66,11 +87,7 @@ def main():
     money = 0
     while True:
         user_input = ask_user()
-        if user_input == 'espresso':
-            pass
-        elif user_input == 'latte':
-            pass
-        elif user_input == 'cappuccino':
+        if user_input == 'espresso' or user_input == 'latte' or user_input == 'cappuccino':
             pass
         elif user_input == 'off':
             break
